@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YouBooth | 360 Video Booth, Photo Booth &amp; Event Rentals</title>
+<meta name="description" content="YouBooth brings a 360° video booth, a touchscreen digital photo booth, low-lying fog, and event cooling to weddings, birthdays, graduations, corporate events, and celebrations.">
+<meta name="theme-color" content="#0b0a12">
+<meta property="og:title" content="YouBooth | Your Event. Your Moment. Your Booth.">
+<meta property="og:description" content="360° video booth, digital photo booth, low-lying fog, and event cooling rentals.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ff3d8b'/><stop offset='1' stop-color='%2333d6ff'/></linearGradient></defs><circle cx='50' cy='50' r='38' fill='none' stroke='url(%23g)' stroke-width='14'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a href="#home" class="brand" aria-label="YouBooth home">
+      <span class="brand-ring" aria-hidden="true"></span>
+      <span class="brand-name">You<span>Booth</span></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#photo-booths">Photo Booths</a>
+      <a href="#event-rentals">Event Rentals</a>
+      <a href="#packages">Packages</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+      <a href="#book" class="btn btn-primary btn-sm nav-cta">Book Now</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero dark" id="home">
+  <div class="hero-media" aria-hidden="true">
+    <!-- Drop your best 360 booth event photo at images/hero.jpg (landscape, 2000px+ wide).
+         Optional: images/hero.mp4 (short muted 360 clip) plays on top of the photo. -->
+    <img class="hero-img" src="images/hero.jpg" alt="" data-optional>
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/hero.jpg" data-optional>
+      <source src="images/hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-fallback">
+      <div class="orbit"><span></span><span></span><span></span></div>
+    </div>
+    <div class="hero-shade"></div>
+  </div>
+  <div class="wrap hero-content">
+    <p class="eyebrow">360° Video Booth · Digital Photo Booth · Event Rentals</p>
+    <h1><span class="line">Your Event.</span><span class="line">Your Moment.</span><span class="line grad-text">Your Booth.</span></h1>
+    <p class="lead">Turn your celebration into an experience your guests will remember.</p>
+    <div class="btn-row">
+      <a href="#book" class="btn btn-primary btn-lg">Check Availability</a>
+      <a href="#event-rentals" class="btn btn-ghost btn-lg">Explore Rentals</a>
+    </div>
+    <ul class="hero-events" aria-label="Events we serve">
+      <li>Weddings</li><li>Birthdays</li><li>Graduations</li><li>Engagements</li>
+      <li>Baby Showers</li><li>Corporate</li><li>Private Parties</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ STAND OUT ============ -->
+<section class="section light" id="stand-out">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">The YouBooth experience</p>
+      <h2>Make Your Event Stand Out</h2>
+    </div>
+    <div class="feature-grid">
+      <a href="#photo-booths" class="feature reveal" style="--c1:var(--magenta);--c2:var(--violet)">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><ellipse cx="24" cy="38" rx="16" ry="5"/><path d="M24 8v24"/><circle cx="24" cy="14" r="5"/><path d="M8 26a16 6 0 0 0 32 0"/></svg>
+        </span>
+        <h3>360° Video Booth</h3>
+        <p>Guests step onto the platform while the camera circles them.</p>
+      </a>
+      <a href="#photo-booths" class="feature reveal" style="--c1:var(--cyan);--c2:var(--violet)">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="13"/><rect x="17" y="13" width="14" height="14" rx="2"/><path d="M24 33v9M17 42h14"/></svg>
+        </span>
+        <h3>Digital Photo Booth</h3>
+        <p>A touchscreen booth with LED ring light for photos worth sharing.</p>
+      </a>
+      <a href="#event-rentals" class="feature reveal" style="--c1:var(--violet);--c2:var(--cyan)">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M4 34c6-4 10 4 16 0s10 4 16 0 8 2 8 2"/><path d="M4 40c6-4 10 4 16 0s10 4 16 0 8 2 8 2"/><path d="M14 26c4-3 8 3 12 0s8 3 12 0"/></svg>
+        </span>
+        <h3>Low-Lying Fog Experience</h3>
+        <p>A cloud-like layer of fog for first dances, entrances, and big moments.</p>
+      </a>
+      <a href="#event-rentals" class="feature reveal" style="--c1:var(--cyan);--c2:var(--amber)">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><rect x="12" y="6" width="24" height="36" rx="5"/><path d="M18 14h12M18 19h12M18 24h12"/><circle cx="24" cy="34" r="3"/></svg>
+        </span>
+        <h3>Event Cooling</h3>
+        <p>Portable evaporative coolers to keep guests comfortable.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTO BOOTHS ============ -->
+<section class="section dark glow-bg" id="photo-booths">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Photo Booths</p>
+      <h2>The moment everyone lines up for</h2>
+      <p class="sub">Two booths, two very different experiences. Book one, or bring both.</p>
+    </div>
+
+    <div class="booth-grid">
+      <article class="booth-card reveal" data-product="360-booth">
+        <div class="media product" data-label="360° Video Booth" style="--c1:var(--magenta);--c2:var(--violet)">
+          <!-- Your photo: images/360-booth.jpg -->
+          <img src="images/360-booth.jpg" alt="YouBooth 360 degree video booth platform with rotating camera arm" loading="lazy" data-optional>
+          <span class="tag">Signature experience</span>
+        </div>
+        <div class="card-body">
+          <h3>360° Video Booth</h3>
+          <p>Step onto the platform, strike a pose, and let the camera sweep all the way around you. Guests dance, spin, toss confetti, and pull in their friends while the booth captures every angle in one continuous video. It turns a quick photo stop into the part of the night everyone talks about.</p>
+          <ul class="ticks">
+            <li>Guests step on the platform, the camera rotates around them</li>
+            <li>Groups and solo moments on one platform</li>
+            <li>Pairs well with low-lying fog</li>
+          </ul>
+          <div class="btn-row">
+            <button class="btn btn-ghost" data-details="360-booth">View Details</button>
+            <a href="#book" class="btn btn-primary" data-prefill="360">Check Availability</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="booth-card reveal" data-product="digital-booth">
+        <div class="media product" data-label="Digital Photo Booth" style="--c1:var(--cyan);--c2:var(--violet)">
+          <!-- Your photo: images/digital-booth.jpg -->
+          <img src="images/digital-booth.jpg" alt="YouBooth touchscreen digital photo booth with LED ring light" loading="lazy" data-optional>
+          <span class="tag">Touchscreen + LED ring light</span>
+        </div>
+        <div class="card-body">
+          <h3>Digital Photo Booth</h3>
+          <p>A sleek touchscreen booth lit by a glowing LED ring light, so every guest looks their best. Guests tap, pose, and capture photos made for sharing, giving you a collection of candid, happy faces from your event.</p>
+          <ul class="ticks">
+            <li>Easy touchscreen, no instructions needed</li>
+            <li>LED ring light for flattering photos</li>
+            <li>Built for photos, social sharing, and event memories</li>
+          </ul>
+          <div class="btn-row">
+            <button class="btn btn-ghost" data-details="digital-booth">View Details</button>
+            <a href="#book" class="btn btn-primary" data-prefill="digital">Check Availability</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENT RENTALS ============ -->
+<section class="section light" id="event-rentals">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Event Rentals</p>
+      <h2>Finish the atmosphere</h2>
+      <p class="sub">Add these to any photo booth booking, or rent them on their own.</p>
+    </div>
+
+    <div class="rental-grid">
+      <article class="rental-card reveal">
+        <div class="media product" data-label="Low-Lying Fog Machine" style="--c1:var(--violet);--c2:var(--cyan)">
+          <!-- Your photo: images/fog-machine.jpg -->
+          <img src="images/fog-machine.jpg" alt="YouBooth 1800W low-lying fog machine" loading="lazy" data-optional>
+        </div>
+        <div class="card-body">
+          <p class="kicker">Low-Lying Fog Experience</p>
+          <h3>1800W Low-Lying Fog Machine</h3>
+          <p>Create a soft layer of fog that hugs the floor. Made for first dances, grand entrances, cake cutting, and dramatic 360 booth videos.</p>
+          <p class="note">Some venues restrict fog. Check with your venue before booking. <a href="#faq-fog">Learn more</a></p>
+          <div class="btn-row">
+            <a href="#book" class="btn btn-dark" data-prefill="fog" data-addon>Add to a Booth</a>
+            <a href="#book" class="btn btn-outline" data-prefill="fog">Rent Separately</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="rental-card reveal">
+        <div class="media product" data-label="Portable Event Air Cooler" style="--c1:var(--cyan);--c2:var(--amber)">
+          <!-- Your photo: images/air-cooler.jpg -->
+          <img src="images/air-cooler.jpg" alt="YouBooth portable 5.5 gallon evaporative air cooler" loading="lazy" data-optional>
+          <span class="tag tag-light">2 units available</span>
+        </div>
+        <div class="card-body">
+          <p class="kicker">Event Cooling</p>
+          <h3>Portable Event Air Cooler</h3>
+          <p>Portable 5.5-gallon evaporative air coolers that move cooled air where your guests gather, like the booth line, the dance floor, or the head table. Rent one or both units.</p>
+          <p class="note">These are evaporative coolers, not refrigerated air conditioners. They work best in dry heat with good airflow. <a href="#faq-weather">Learn more</a></p>
+          <div class="btn-row">
+            <a href="#book" class="btn btn-dark" data-prefill="cooler" data-addon>Add to a Booth</a>
+            <a href="#book" class="btn btn-outline" data-prefill="cooler">Rent Separately</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PACKAGES ============ -->
+<section class="section dark glow-bg alt" id="packages">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Packages</p>
+      <h2>Pick your experience</h2>
+      <p class="sub">Every event is different. Tell us about yours and we'll send availability and a custom quote.</p>
+    </div>
+
+    <div class="package-grid">
+      <article class="package reveal" data-package="360-experience">
+        <div class="package-top" style="--c1:var(--magenta);--c2:var(--violet)"></div>
+        <h3>360 Experience</h3>
+        <p>The 360° video booth as the centerpiece of your event.</p>
+        <ul class="ticks">
+          <li>360° Video Booth</li>
+          <li>Add fog or event cooling</li>
+        </ul>
+        <p class="price" data-price>Custom quote</p>
+        <a href="#book" class="btn btn-primary btn-block" data-package-select="360-experience">Request Quote</a>
+      </article>
+
+      <article class="package reveal" data-package="digital-experience">
+        <div class="package-top" style="--c1:var(--cyan);--c2:var(--violet)"></div>
+        <h3>Digital Booth Experience</h3>
+        <p>The touchscreen photo booth with LED ring light.</p>
+        <ul class="ticks">
+          <li>Digital Photo Booth</li>
+          <li>Add fog or event cooling</li>
+        </ul>
+        <p class="price" data-price>Custom quote</p>
+        <a href="#book" class="btn btn-primary btn-block" data-package-select="digital-experience">Request Quote</a>
+      </article>
+
+      <article class="package featured reveal" data-package="wedding-experience">
+        <span class="ribbon">For weddings</span>
+        <div class="package-top" style="--c1:var(--amber);--c2:var(--magenta)"></div>
+        <h3>Wedding Experience</h3>
+        <p>Built around your big day, from the grand entrance to the last dance.</p>
+        <ul class="ticks">
+          <li>Choose your booth, or both</li>
+          <li>Low-lying fog for your first dance</li>
+          <li>Event cooling for warm venues</li>
+        </ul>
+        <p class="price" data-price>Custom quote</p>
+        <a href="#book" class="btn btn-primary btn-block" data-package-select="wedding-experience">Request Quote</a>
+      </article>
+
+      <article class="package reveal" data-package="build-your-own">
+        <div class="package-top" style="--c1:var(--violet);--c2:var(--cyan)"></div>
+        <h3>Build Your Own Event</h3>
+        <p>Mix any booth and rental to fit your space and guest list.</p>
+        <ul class="ticks">
+          <li>Any combination of equipment</li>
+          <li>Rentals on their own welcome</li>
+        </ul>
+        <p class="price" data-price>Custom quote</p>
+        <a href="#book" class="btn btn-primary btn-block" data-package-select="build-your-own">Request Quote</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW BOOKING WORKS ============ -->
+<section class="section light tight" id="how-it-works">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">How booking works</p>
+      <h2>From request to event day</h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal"><span class="step-n">1</span><h3>Send your request</h3><p>Tell us your date, venue, and what you want.</p></li>
+      <li class="reveal"><span class="step-n">2</span><h3>Get availability &amp; a quote</h3><p>We check your date and send a custom quote.</p></li>
+      <li class="reveal"><span class="step-n">3</span><h3>Sign &amp; reserve</h3><p>Sign your rental agreement and pay your deposit to lock in your date.</p></li>
+      <li class="reveal"><span class="step-n">4</span><h3>You're confirmed</h3><p>We confirm setup details with you before the event.</p></li>
+      <li class="reveal"><span class="step-n">5</span><h3>Enjoy your event</h3><p>We handle the equipment. You enjoy the moment.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS (hidden until you have real reviews) ============
+     Remove the "hidden" attribute and replace the example block with real reviews. -->
+<section class="section light" id="testimonials" hidden>
+  <div class="wrap">
+    <div class="section-head center"><p class="eyebrow">Reviews</p><h2>What hosts say</h2></div>
+    <div class="quote-grid">
+      <!-- <figure class="quote"><blockquote>Real review text.</blockquote><figcaption>Name, Event type</figcaption></figure> -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section dark" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Gallery</p>
+      <h2>Moments from the booth</h2>
+    </div>
+    <div class="filters" role="tablist" aria-label="Gallery categories">
+      <button role="tab" class="chip" aria-selected="true" data-filter="all">All</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="360">360 Booth</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="photo-booth">Photo Booth</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="weddings">Weddings</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="birthdays">Birthdays</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="corporate">Corporate Events</button>
+      <button role="tab" class="chip" aria-selected="false" data-filter="special">Special Events</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ SERVICE AREA (hidden until defined) ============
+     Remove "hidden" and list the cities or ZIP codes you serve. -->
+<section class="section light tight" id="service-area" hidden>
+  <div class="wrap">
+    <div class="section-head center"><p class="eyebrow">Service area</p><h2>Where we travel</h2></div>
+    <ul class="area-list"></ul>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section light" id="faq">
+  <div class="wrap narrow">
+    <div class="section-head center">
+      <p class="eyebrow">FAQ</p>
+      <h2>Good questions, straight answers</h2>
+    </div>
+
+    <div class="faq-list">
+      <details>
+        <summary>How long does setup take?</summary>
+        <p>Setup time depends on which booth and rentals you book and how easy it is to reach your setup spot at the venue. We confirm your arrival and setup window in your quote, so everything is ready before guests arrive.</p>
+      </details>
+      <details>
+        <summary>How much space do the booths need?</summary>
+        <p>The 360° Video Booth needs open space around the platform so the camera can rotate safely. The Digital Photo Booth needs room for the booth plus a spot for guests to pose. Tell us about your venue and we'll confirm the space you need in your quote.</p>
+      </details>
+      <details>
+        <summary>Can the booths be used indoors and outdoors?</summary>
+        <p>Yes, with the right setup. Indoors is simplest. For outdoor events, the equipment needs a flat surface, shade, and protection from rain and wind. Share your plans in your request and we'll help you pick the right spot.</p>
+      </details>
+      <details>
+        <summary>What are the power requirements?</summary>
+        <p>Each piece of equipment needs access to a power outlet near its setup spot. The fog machine is rated at 1800W. In most US venues, one standard 15-amp circuit supplies about 1800W, so the fog machine should run on its own circuit, separate from the booth and coolers, to avoid tripping a breaker. Ask your venue which outlets share a circuit.</p>
+      </details>
+      <details>
+        <summary>Do you travel and deliver?</summary>
+        <p>Delivery and travel depend on where your event is. Include your venue address or ZIP code in your request and we'll include delivery details in your quote.</p>
+      </details>
+      <details>
+        <summary>Will there be an attendant?</summary>
+        <p>Let us know in your request if you want an attendant at your event. We'll confirm attendant availability and details in your quote.</p>
+      </details>
+      <details>
+        <summary>How long is a rental?</summary>
+        <p>Tell us your event start and end times. Your quote lists the rental window for your event.</p>
+      </details>
+      <details>
+        <summary>Is a deposit required?</summary>
+        <p>Yes. A deposit reserves your date. Your date is not held until your rental agreement is signed and your deposit is received. The deposit amount and payment details are in your quote.</p>
+      </details>
+      <details>
+        <summary>What is your cancellation policy?</summary>
+        <p>Cancellation terms are in your rental agreement, and you'll see them before you sign. If you have questions about them, ask before you book.</p>
+      </details>
+      <details id="faq-weather">
+        <summary>What happens if the weather is bad?</summary>
+        <p>Rain and strong wind can damage electronics, so outdoor setups need cover. If the forecast looks risky, we'll talk with you before event day about moving the setup to a covered area. For event cooling, keep in mind that our air coolers are evaporative. They cool best in dry heat with airflow and cool less in very humid weather.</p>
+      </details>
+      <details id="faq-fog">
+        <summary>Does my venue allow a fog machine?</summary>
+        <p>Some venues restrict fog or haze because it can set off smoke detectors or fire alarms. Check with your venue coordinator before booking and ask if they need to know in advance. We'll ask about venue rules during your quote.</p>
+      </details>
+    </div>
+    <p class="faq-more">Still have a question? <a href="#book">Send it with your request</a> and we'll answer it with your quote.</p>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section class="section dark glow-bg" id="book">
+  <div class="wrap book-wrap">
+    <div class="book-intro">
+      <p class="eyebrow">Book Now</p>
+      <h2>Check availability &amp; get a quote</h2>
+      <p class="sub">Tell us about your event. We'll reply with availability and pricing.</p>
+      <ul class="ticks">
+        <li>Select as many rentals as you want</li>
+        <li>No payment to send a request</li>
+        <li>Your date is reserved once your agreement is signed and your deposit is paid</li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <form id="bookingForm" novalidate>
+        <input type="hidden" name="package" id="packageField" value="">
+        <!-- Spam trap: real people never see or fill this -->
+        <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <fieldset>
+          <legend>Your details</legend>
+          <div class="grid-2">
+            <label class="field">Name<input type="text" name="name" autocomplete="name" required></label>
+            <label class="field">Email<input type="email" name="email" autocomplete="email" required></label>
+            <label class="field">Phone<input type="tel" name="phone" autocomplete="tel" required></label>
+            <label class="field">Package interest
+              <select name="packageInterest" id="packageSelect">
+                <option value="">Not sure yet</option>
+                <option value="360-experience">360 Experience</option>
+                <option value="digital-experience">Digital Booth Experience</option>
+                <option value="wedding-experience">Wedding Experience</option>
+                <option value="build-your-own">Build Your Own Event</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your event</legend>
+          <div class="grid-3">
+            <label class="field">Event date<input type="date" name="eventDate" id="eventDate" required></label>
+            <label class="field">Start time<input type="time" name="startTime" id="startTime" required></label>
+            <label class="field">End time<input type="time" name="endTime" id="endTime" required></label>
+          </div>
+          <p class="hint" id="overnightHint" hidden>Your event ends after midnight. We'll plan for that.</p>
+          <div class="grid-2">
+            <label class="field">Event type
+              <select name="eventType" required>
+                <option value="">Choose one</option>
+                <option>Wedding</option>
+                <option>Birthday</option>
+                <option>Graduation</option>
+                <option>Engagement Party</option>
+                <option>Baby Shower</option>
+                <option>Corporate Event</option>
+                <option>Private Party</option>
+                <option>Other Celebration</option>
+              </select>
+            </label>
+            <label class="field">Estimated guest count<input type="number" name="guestCount" min="1" max="100000" inputmode="numeric" required></label>
+            <label class="field">Venue name<input type="text" name="venueName" placeholder="Or &quot;Private home&quot;" required></label>
+            <label class="field">Event address or ZIP code<input type="text" name="location" autocomplete="postal-code" required></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Requested equipment <span class="legend-note">Choose all that apply</span></legend>
+          <div class="equip-grid" id="equipGroup">
+            <label class="equip"><input type="checkbox" name="equipment" value="360-booth"><span><strong>360° Video Booth</strong></span></label>
+            <label class="equip"><input type="checkbox" name="equipment" value="digital-booth"><span><strong>Digital Photo Booth</strong></span></label>
+            <label class="equip"><input type="checkbox" name="equipment" value="fog-machine"><span><strong>Fog Machine</strong><small>1800W low-lying</small></span></label>
+            <label class="equip"><input type="checkbox" name="equipment" value="air-cooler" id="coolerCheck"><span><strong>Air Cooler</strong><small>Evaporative</small></span></label>
+          </div>
+          <label class="field cooler-count" id="coolerCountWrap" hidden>Number of air coolers
+            <select name="airCoolerCount" id="coolerCount"></select>
+          </label>
+          <p class="error-msg" id="equipError" hidden>Choose at least one item, or pick a package above.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Anything else?</legend>
+          <label class="field">Additional information
+            <textarea name="notes" rows="4" placeholder="Venue rules, indoor or outdoor, attendant request, questions..."></textarea>
+          </label>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submitBtn">Check Availability</button>
+        <p class="form-status" id="formStatus" role="alert" hidden></p>
+      </form>
+
+      <div class="thanks" id="thanks" hidden tabindex="-1">
+        <div class="thanks-ring" aria-hidden="true"></div>
+        <h3>Request received</h3>
+        <p>Thank you for choosing YouBooth. We received your event request and will contact you with availability and pricing.</p>
+        <p class="ref">Your reference: <strong id="refId"></strong></p>
+        <button class="btn btn-ghost" id="anotherBtn">Send another request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer dark">
+  <div class="wrap footer-inner">
+    <div>
+      <a href="#home" class="brand"><span class="brand-ring" aria-hidden="true"></span><span class="brand-name">You<span>Booth</span></span></a>
+      <p class="footer-tag">Photo booth experiences and event rentals.</p>
+      <ul class="contact" id="contactList"></ul>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#photo-booths">Photo Booths</a>
+      <a href="#event-rentals">Event Rentals</a>
+      <a href="#packages">Packages</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+      <a href="#book">Book Now</a>
+    </nav>
+    <div class="footer-cta">
+      <p>Have a date in mind?</p>
+      <a href="#book" class="btn btn-primary">Check Availability</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom"><span>© <span id="year"></span> YouBooth</span></div>
+</footer>
+
+<!-- Mobile sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#book" class="btn btn-primary btn-block">Check Availability</a>
+</div>
+
+<!-- ============ DETAILS DIALOG ============ -->
+<dialog id="detailsDialog" aria-labelledby="dlgTitle">
+  <button class="dlg-close" id="dlgClose" aria-label="Close">×</button>
+  <div id="dlgBody"></div>
+</dialog>
+
+<template id="tpl-360-booth">
+  <p class="eyebrow">Signature experience</p>
+  <h3 id="dlgTitle">360° Video Booth</h3>
+  <p>The 360° Video Booth turns guests into the stars of their own video. They step onto the platform, and the camera rotates all the way around them, capturing every angle in one smooth, continuous shot.</p>
+  <h4>How it works</h4>
+  <ol class="dlg-steps">
+    <li>Guests step onto the platform, alone or with friends.</li>
+    <li>The camera rotates around them while they pose, dance, or celebrate.</li>
+    <li>Everyone gets a moment that feels like a music video.</li>
+  </ol>
+  <h4>Great for</h4>
+  <p>Weddings, birthdays, graduations, engagement parties, corporate events, and any celebration where you want guests on their feet.</p>
+  <h4>Make it bigger</h4>
+  <p>Add the low-lying fog machine for a cloud effect around the platform.</p>
+  <h4>We confirm with your quote</h4>
+  <p>Space around the platform, power access, and your setup window.</p>
+  <a href="#book" class="btn btn-primary btn-block" data-prefill="360" data-close>Check Availability</a>
+</template>
+
+<template id="tpl-digital-booth">
+  <p class="eyebrow">Touchscreen + LED ring light</p>
+  <h3 id="dlgTitle">Digital Photo Booth</h3>
+  <p>A modern touchscreen photo booth with an LED ring light that gives every guest bright, flattering light. It is easy for guests of every age to use and built for photos people want to share.</p>
+  <h4>How it works</h4>
+  <ol class="dlg-steps">
+    <li>Guests tap the touchscreen to start.</li>
+    <li>They pose under the LED ring light.</li>
+    <li>Photos are ready for social sharing and event memories.</li>
+  </ol>
+  <h4>Great for</h4>
+  <p>Weddings, baby showers, birthdays, graduations, corporate events, and private parties.</p>
+  <h4>We confirm with your quote</h4>
+  <p>Space for the booth and posing area, power access, and your setup window.</p>
+  <a href="#book" class="btn btn-primary btn-block" data-prefill="digital" data-close>Check Availability</a>
+</template>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
