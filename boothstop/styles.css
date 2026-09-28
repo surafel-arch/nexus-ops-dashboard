@@ -143,9 +143,9 @@ h4{font-size:15px;font-weight:600;margin:20px 0 6px}
 .media::after{content:"";position:absolute;left:50%;top:50%;width:min(46%,220px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 90deg,var(--c1,var(--magenta)),var(--c2,var(--cyan)),var(--c1,var(--magenta)));-webkit-mask:radial-gradient(circle,transparent 62%,#000 63%);mask:radial-gradient(circle,transparent 62%,#000 63%);opacity:.75;filter:drop-shadow(0 0 22px color-mix(in srgb,var(--c1,var(--magenta)) 60%,transparent))}
 .media.has-img::after{display:none}
 .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.media.product.has-img{background:radial-gradient(80% 70% at 50% 45%,#ffffff,#eeeaf3)}
-.media.product img{object-fit:contain;padding:22px}
-.media .tag{position:absolute;top:16px;left:16px;z-index:2;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;background:rgba(11,10,18,.7);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.media.product.has-img{background:radial-gradient(75% 70% at 50% 50%,#ffffff 30%,#efecf4)}
+.media.product img{object-fit:contain;padding:12px 12px 52px;mix-blend-mode:multiply}
+.media .tag{position:absolute;bottom:16px;left:16px;z-index:2;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;background:rgba(11,10,18,.7);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .media .tag-light{background:rgba(255,255,255,.9);color:var(--text-dark)}
 
 /* ============ STAND OUT FEATURES ============ */
@@ -177,17 +177,17 @@ h4{font-size:15px;font-weight:600;margin:20px 0 6px}
 
 /* ============ RENTAL CARDS ============ */
 .rental-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.rental-card{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;transition:box-shadow .3s}
+.rental-card{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .3s}
 .rental-card:hover{box-shadow:var(--shadow)}
-.rental-card .media{aspect-ratio:auto;min-height:100%}
+.rental-card .media{aspect-ratio:16/11}
 .rental-card .card-body{padding:28px;gap:12px}
 .rental-card h3{font-size:22px}
 .rental-card .card-body>p{color:var(--text-dark-2);font-size:15px}
 .kicker{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6d3df5!important}
 .note{font-size:13.5px!important;background:#f3f0fb;border-radius:var(--r-sm);padding:10px 12px;color:#4b4560!important}
 .note a{color:#6d3df5;font-weight:600}
-@media (max-width:1060px){.rental-grid{grid-template-columns:1fr}}
-@media (max-width:620px){.rental-card{grid-template-columns:1fr}.rental-card .media{aspect-ratio:4/3}.rental-card .card-body{padding:22px}}
+@media (max-width:860px){.rental-grid{grid-template-columns:1fr}}
+@media (max-width:620px){.rental-card .media{aspect-ratio:4/3}.rental-card .card-body{padding:22px}}
 
 /* ============ PACKAGES ============ */
 .package-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch}
