@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Photo Booth</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f6f3ee;--bg2:#ffffff;--bg3:#ece7df;
+  --text:#1d1b19;--text2:#6b645c;--border:#ddd5ca;
+  --accent:#e0457b;--accent-d:#c2305f;--ok:#2f9e6b;--err:#c83a3a;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141312;--bg2:#1e1c1a;--bg3:#2a2724;
+    --text:#f1ece6;--text2:#a39b92;--border:#37322d;
+  }
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.5;min-height:100vh}
+header{padding:20px 16px 8px;text-align:center}
+header h1{font-size:28px;letter-spacing:.5px}
+header p{color:var(--text2);font-size:14px}
+main{max-width:1100px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 320px;gap:20px}
+@media (max-width:860px){main{grid-template-columns:1fr}}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.stage{position:relative;aspect-ratio:4/3;background:#000;border-radius:var(--r);overflow:hidden}
+.stage video{width:100%;height:100%;object-fit:cover;display:block}
+.stage video.mirror{transform:scaleX(-1)}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#count{font-size:min(28vw,180px);font-weight:800;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.5)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#flash.on{animation:flash .45s ease-out}
+@keyframes flash{0%{opacity:1}100%{opacity:0}}
+#shotBadge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.55);color:#fff;font-size:13px;padding:4px 10px;border-radius:999px;display:none}
+#msg{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#fff;text-align:center;padding:24px;background:#111}
+#msg.show{display:flex}
+#msg p{max-width:420px;font-size:15px;color:#ddd}
+.thumbs{display:flex;gap:8px;margin-top:12px;min-height:64px}
+.thumbs canvas{height:64px;border-radius:6px;border:1px solid var(--border)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--border);background:var(--bg3);color:var(--text);padding:10px 18px;font-size:14px}
+button:hover:not(:disabled){filter:brightness(.96)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700;padding:14px 28px;font-size:16px}
+button.primary:hover:not(:disabled){background:var(--accent-d)}
+.hint{color:var(--text2);font-size:12px}
+label.field{display:block;font-size:13px;color:var(--text2);margin:14px 0 6px}
+label.field:first-child{margin-top:0}
+select,input[type=text]{width:100%;font:inherit;font-size:14px;padding:9px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:6px 12px;font-size:13px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:30px;height:30px;padding:0;border-radius:50%;border:2px solid var(--border)}
+.swatch[aria-pressed="true"]{outline:3px solid var(--accent);outline-offset:2px}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:12px}
+#result{display:none;grid-column:1/-1}
+#result.show{display:block}
+.resultWrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+#strip{max-width:100%;max-height:70vh;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.resultActions{display:flex;flex-direction:column;gap:10px;min-width:200px}
+#gallery{grid-column:1/-1}
+#gallery .grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+#gallery img{height:160px;border-radius:6px;border:1px solid var(--border);cursor:pointer}
+h2{font-size:16px;margin-bottom:6px}
+footer{text-align:center;color:var(--text2);font-size:12px;padding:24px 16px}
+</style>
+</head>
+<body>
+<header>
+  <h1>📸 Photo Booth</h1>
+  <p>Strike a pose. Press the button or hit Space.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="stage">
+      <video id="video" class="mirror" autoplay playsinline muted></video>
+      <div class="overlay"><span id="count"></span></div>
+      <div id="flash"></div>
+      <div id="shotBadge"></div>
+      <div id="msg" class="show">
+        <h2 id="msgTitle">Camera is off</h2>
+        <p id="msgText">Allow camera access to start. Your photos stay on this device. Nothing uploads anywhere.</p>
+        <button id="startBtn" class="primary" style="pointer-events:auto">Turn on camera</button>
+      </div>
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+    <div class="controls">
+      <button id="shootBtn" class="primary" disabled>Start</button>
+      <button id="cancelBtn" disabled>Cancel</button>
+      <span class="hint" id="status"></span>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <label class="field">Layout</label>
+    <div class="chips" id="layoutChips">
+      <button class="chip" data-v="strip" aria-pressed="true">Strip (4)</button>
+      <button class="chip" data-v="grid" aria-pressed="false">Grid (2×2)</button>
+      <button class="chip" data-v="single" aria-pressed="false">Single</button>
+    </div>
+
+    <label class="field">Filter</label>
+    <div class="chips" id="filterChips">
+      <button class="chip" data-v="none" aria-pressed="true">Normal</button>
+      <button class="chip" data-v="bw" aria-pressed="false">B&amp;W</button>
+      <button class="chip" data-v="noir" aria-pressed="false">Noir</button>
+      <button class="chip" data-v="sepia" aria-pressed="false">Sepia</button>
+      <button class="chip" data-v="vintage" aria-pressed="false">Vintage</button>
+      <button class="chip" data-v="warm" aria-pressed="false">Warm</button>
+      <button class="chip" data-v="cool" aria-pressed="false">Cool</button>
+    </div>
+
+    <label class="field">Frame color</label>
+    <div class="swatches" id="frameSwatches"></div>
+
+    <label class="field" for="caption">Caption</label>
+    <input type="text" id="caption" maxlength="40" placeholder="e.g. Sam &amp; Alex's Wedding">
+
+    <label class="field" for="countdown">Countdown</label>
+    <select id="countdown">
+      <option value="3" selected>3 seconds</option>
+      <option value="5">5 seconds</option>
+      <option value="10">10 seconds</option>
+    </select>
+
+    <label class="field" for="camera">Camera</label>
+    <select id="camera"><option value="">Default</option></select>
+
+    <label class="check"><input type="checkbox" id="mirror" checked> Mirror photos</label>
+    <label class="check"><input type="checkbox" id="showDate" checked> Print date on strip</label>
+  </aside>
+
+  <section class="panel" id="result">
+    <h2>Your photos</h2>
+    <div class="resultWrap">
+      <img id="strip" alt="Your photo booth strip">
+      <div class="resultActions">
+        <button id="downloadBtn" class="primary">Download</button>
+        <button id="shareBtn" style="display:none">Share</button>
+        <button id="againBtn">Take more</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="gallery" style="display:none">
+    <h2>This session</h2>
+    <p class="hint">Click a photo to view it again. Session photos clear when you close the tab.</p>
+    <div class="grid" id="galleryGrid"></div>
+  </section>
+</main>
+
+<footer>Photos are processed in your browser. No uploads.</footer>
+
+<script>
+(() => {
+  const SHOT_W = 800, SHOT_H = 600;
+  const FRAMES = ['#ffffff', '#1d1b19', '#f7c6d9', '#bfe3d0', '#c9d8f5', '#f6e2a8', '#e0457b'];
+
+  // Preview uses CSS filters. Output uses pixel math so every browser gets the same result.
+  const CSS_FILTERS = {
+    none: 'none',
+    bw: 'grayscale(1)',
+    noir: 'grayscale(1) contrast(1.5)',
+    sepia: 'sepia(1)',
+    vintage: 'sepia(.45) contrast(.9) brightness(1.05) saturate(.85)',
+    warm: 'sepia(.2) saturate(1.3) hue-rotate(-10deg)',
+    cool: 'saturate(1.1) hue-rotate(15deg) brightness(1.02)'
+  };
+
+  // Canvas filters match the preview exactly. Older Safari lacks them, so it falls back to pixel math.
+  const CANVAS_FILTER = (() => {
+    const ctx = document.createElement('canvas').getContext('2d');
+    ctx.filter = 'grayscale(1)';
+    return ctx.filter === 'grayscale(1)';
+  })();
+
+  const $ = id => document.getElementById(id);
+  const video = $('video'), countEl = $('count'), flashEl = $('flash');
+  const shootBtn = $('shootBtn'), cancelBtn = $('cancelBtn'), statusEl = $('status');
+  const thumbs = $('thumbs'), badge = $('shotBadge');
+
+  const state = {
+    stream: null, layout: 'strip', filter: 'none', frame: FRAMES[0],
+    running: false, cancelled: false, lastBlob: null, lastUrl: null, gallery: []
+  };
+
+  // ---------- Settings UI ----------
+  function bindChips(containerId, key, onChange) {
+    const box = $(containerId);
+    box.addEventListener('click', e => {
+      const b = e.target.closest('.chip');
+      if (!b || state.running) return;
+      box.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b));
+      state[key] = b.dataset.v;
+      onChange && onChange();
+    });
+  }
+  bindChips('layoutChips', 'layout', updateShootLabel);
+  bindChips('filterChips', 'filter', () => { video.style.filter = CSS_FILTERS[state.filter]; });
+
+  const sw = $('frameSwatches');
+  FRAMES.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'swatch';
+    b.style.background = c;
+    b.title = c;
+    b.setAttribute('aria-label', 'Frame color ' + c);
+    b.setAttribute('aria-pressed', i === 0);
+    b.onclick = () => {
+      sw.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-pressed', s === b));
+      state.frame = c;
+    };
+    sw.appendChild(b);
+  });
+
+  $('mirror').addEventListener('change', e => video.classList.toggle('mirror', e.target.checked));
+
+  function shotCount() { return state.layout === 'single' ? 1 : 4; }
+  function updateShootLabel() {
+    if (!state.running) shootBtn.textContent = state.stream ? `Take ${shotCount()} photo${shotCount() > 1 ? 's' : ''}` : 'Start';
+  }
+
+  // ---------- Camera ----------
+  function showMsg(title, text, showBtn) {
+    $('msgTitle').textContent = title;
+    $('msgText').textContent = text;
+    $('startBtn').style.display = showBtn ? '' : 'none';
+    $('msg').classList.add('show');
+  }
+
+  async function startCamera(deviceId) {
+    if (!window.isSecureContext) {
+      showMsg('Needs HTTPS', 'Browsers only allow camera access on https:// pages or localhost. Serve this page over HTTPS.', false);
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      showMsg('Camera not supported', 'This browser does not support camera access. Try a current version of Chrome, Safari, Firefox, or Edge.', false);
+      return;
+    }
+    stopCamera();
+    try {
+      const constraints = {
+        audio: false,
+        video: deviceId
+          ? { deviceId: { exact: deviceId }, width: { ideal: 1280 }, height: { ideal: 960 } }
+          : { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }
+      };
+      state.stream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = state.stream;
+      await video.play().catch(() => {});
+      $('msg').classList.remove('show');
+      shootBtn.disabled = false;
+      updateShootLabel();
+      listCameras();
+    } catch (err) {
+      const map = {
+        NotAllowedError: ['Camera blocked', 'You denied camera access. Click the camera icon in your address bar, allow access, then try again.'],
+        NotFoundError: ['No camera found', 'Connect a camera and try again.'],
+        NotReadableError: ['Camera busy', 'Another app is using the camera. Close it and try again.'],
+        OverconstrainedError: ['Camera unavailable', 'That camera could not start. Pick a different one.']
+      };
+      const [t, m] = map[err.name] || ['Camera error', err.message || String(err)];
+      showMsg(t, m, true);
+    }
+  }
+
+  function stopCamera() {
+    if (state.stream) state.stream.getTracks().forEach(t => t.stop());
+    state.stream = null;
+  }
+
+  async function listCameras() {
+    const sel = $('camera');
+    try {
+      const devices = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+      const current = state.stream?.getVideoTracks()[0]?.getSettings().deviceId;
+      sel.innerHTML = '';
+      devices.forEach((d, i) => {
+        const o = document.createElement('option');
+        o.value = d.deviceId;
+        o.textContent = d.label || `Camera ${i + 1}`;
+        if (d.deviceId === current) o.selected = true;
+        sel.appendChild(o);
+      });
+    } catch { /* keep default option */ }
+  }
+
+  $('camera').addEventListener('change', e => { if (!state.running) startCamera(e.target.value); });
+  $('startBtn').addEventListener('click', () => startCamera());
+
+  // ---------- Capture ----------
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  function grabFrame() {
+    const vw = video.videoWidth, vh = video.videoHeight;
+    const target = SHOT_W / SHOT_H;
+    let sw = vw, sh = vh, sx = 0, sy = 0;
+    if (vw / vh > target) { sw = vh * target; sx = (vw - sw) / 2; }
+    else { sh = vw / target; sy = (vh - sh) / 2; }
+    const c = document.createElement('canvas');
+    c.width = SHOT_W; c.height = SHOT_H;
+    const ctx = c.getContext('2d');
+    if ($('mirror').checked) { ctx.translate(SHOT_W, 0); ctx.scale(-1, 1); }
+    const native = CANVAS_FILTER && state.filter !== 'none';
+    if (native) ctx.filter = CSS_FILTERS[state.filter];
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, SHOT_W, SHOT_H);
+    ctx.filter = 'none';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (!native) applyFilter(ctx, state.filter);
+    else if (state.filter === 'vintage' || state.filter === 'noir') vignette(ctx, SHOT_W, SHOT_H, state.filter === 'noir' ? 0.55 : 0.4);
+    return c;
+  }
+
+  function applyFilter(ctx, f) {
+    if (f === 'none') return;
+    const { width: w, height: h } = ctx.canvas;
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    const clamp = v => v < 0 ? 0 : v > 255 ? 255 : v;
+    for (let i = 0; i < d.length; i += 4) {
+      let r = d[i], g = d[i + 1], b = d[i + 2];
+      const y = 0.299 * r + 0.587 * g + 0.114 * b;
+      switch (f) {
+        case 'bw': r = g = b = y; break;
+        case 'noir': r = g = b = clamp((y - 128) * 1.5 + 128); break;
+        case 'sepia':
+          [r, g, b] = [0.393 * r + 0.769 * g + 0.189 * b, 0.349 * r + 0.686 * g + 0.168 * b, 0.272 * r + 0.534 * g + 0.131 * b];
+          break;
+        case 'vintage': {
+          const sr = 0.393 * r + 0.769 * g + 0.189 * b, sg = 0.349 * r + 0.686 * g + 0.168 * b, sb = 0.272 * r + 0.534 * g + 0.131 * b;
+          r = (r * 0.55 + sr * 0.45) * 0.9 + 20; g = (g * 0.55 + sg * 0.45) * 0.9 + 18; b = (b * 0.55 + sb * 0.45) * 0.9 + 10;
+          break;
+        }
+        case 'warm': r *= 1.12; g *= 1.03; b *= 0.88; break;
+        case 'cool': r *= 0.9; g *= 1.0; b *= 1.12; break;
+      }
+      d[i] = clamp(r); d[i + 1] = clamp(g); d[i + 2] = clamp(b);
+    }
+    ctx.putImageData(img, 0, 0);
+    if (f === 'vintage' || f === 'noir') vignette(ctx, w, h, f === 'noir' ? 0.55 : 0.4);
+  }
+
+  function vignette(ctx, w, h, strength) {
+    const g = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.35, w / 2, h / 2, Math.max(w, h) * 0.75);
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(1, `rgba(0,0,0,${strength})`);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  async function countdown(n) {
+    for (let i = n; i > 0; i--) {
+      if (state.cancelled) return;
+      countEl.textContent = i;
+      await wait(1000);
+    }
+    countEl.textContent = '';
+  }
+
+  function doFlash() {
+    flashEl.classList.remove('on');
+    void flashEl.offsetWidth;
+    flashEl.classList.add('on');
+  }
+
+  async function runSession() {
+    if (!state.stream) { startCamera(); return; }
+    if (state.running) return;
+    state.running = true; state.cancelled = false;
+    shootBtn.disabled = true; cancelBtn.disabled = false;
+    shootBtn.textContent = 'Smile!';
+    thumbs.innerHTML = '';
+    $('result').classList.remove('show');
+
+    const n = shotCount(), secs = +$('countdown').value, shots = [];
+    badge.style.display = 'block';
+    for (let i = 0; i < n; i++) {
+      badge.textContent = `Photo ${i + 1} of ${n}`;
+      statusEl.textContent = i === 0 ? 'Get ready' : 'Next pose';
+      await countdown(i === 0 ? secs : Math.min(secs, 3));
+      if (state.cancelled) break;
+      doFlash();
+      const shot = grabFrame();
+      shots.push(shot);
+      const t = document.createElement('canvas');
+      t.width = 85; t.height = 64;
+      t.getContext('2d').drawImage(shot, 0, 0, 85, 64);
+      thumbs.appendChild(t);
+      if (i < n - 1) await wait(700);
+    }
+
+    badge.style.display = 'none';
+    countEl.textContent = '';
+    state.running = false;
+    shootBtn.disabled = false; cancelBtn.disabled = true;
+    updateShootLabel();
+
+    if (state.cancelled || shots.length < n) { statusEl.textContent = 'Cancelled'; thumbs.innerHTML = ''; return; }
+    statusEl.textContent = '';
+    await buildOutput(shots);
+  }
+
+  // ---------- Compose ----------
+  function isDark(hex) {
+    const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+    return 0.299 * r + 0.587 * g + 0.114 * b < 140;
+  }
+
+  function compose(shots) {
+    const PAD = 40, GAP = 24;
+    const caption = $('caption').value.trim();
+    const dateTxt = $('showDate').checked
+      ? new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+      : '';
+    const footer = caption || dateTxt ? 150 : PAD;
+    let cols, rows;
+    if (state.layout === 'strip') { cols = 1; rows = 4; }
+    else if (state.layout === 'grid') { cols = 2; rows = 2; }
+    else { cols = 1; rows = 1; }
+
+    const W = PAD * 2 + cols * SHOT_W + (cols - 1) * GAP;
+    const H = PAD + rows * SHOT_H + (rows - 1) * GAP + footer;
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = state.frame;
+    ctx.fillRect(0, 0, W, H);
+
+    shots.forEach((s, i) => {
+      const x = PAD + (i % cols) * (SHOT_W + GAP);
+      const y = PAD + Math.floor(i / cols) * (SHOT_H + GAP);
+      ctx.drawImage(s, x, y);
+    });
+
+    if (footer > PAD) {
+      const ink = isDark(state.frame) ? '#ffffff' : '#1d1b19';
+      const base = H - footer;
+      ctx.fillStyle = ink;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if (caption) {
+        ctx.font = `700 ${Math.min(56, Math.floor(W / Math.max(caption.length, 8) * 1.4))}px Georgia, 'Times New Roman', serif`;
+        ctx.fillText(caption, W / 2, base + (dateTxt ? 60 : 75));
+      }
+      if (dateTxt) {
+        ctx.globalAlpha = 0.7;
+        ctx.font = `400 30px -apple-system, 'Segoe UI', Roboto, sans-serif`;
+        ctx.fillText(dateTxt, W / 2, base + (caption ? 115 : 75));
+        ctx.globalAlpha = 1;
+      }
+    }
+    return c;
+  }
+
+  async function buildOutput(shots) {
+    const canvas = compose(shots);
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
+    if (!blob) { statusEl.textContent = 'Could not create the image. Try again.'; return; }
+    const url = URL.createObjectURL(blob);
+    state.gallery.unshift({ blob, url, name: fileName() });
+    showResult(state.gallery[0]);
+    renderGallery();
+  }
+
+  function fileName() {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    return `photobooth-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}.jpg`;
+  }
+
+  function showResult(item) {
+    state.lastBlob = item.blob; state.lastUrl = item.url; state.lastName = item.name;
+    $('strip').src = item.url;
+    $('result').classList.add('show');
+    const file = new File([item.blob], item.name, { type: 'image/jpeg' });
+    $('shareBtn').style.display = navigator.canShare?.({ files: [file] }) ? '' : 'none';
+    $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderGallery() {
+    const g = $('galleryGrid');
+    g.innerHTML = '';
+    state.gallery.forEach(item => {
+      const img = document.createElement('img');
+      img.src = item.url;
+      img.alt = 'Session photo';
+      img.onclick = () => showResult(item);
+      g.appendChild(img);
+    });
+    $('gallery').style.display = state.gallery.length > 1 ? '' : 'none';
+  }
+
+  // ---------- Actions ----------
+  $('downloadBtn').addEventListener('click', () => {
+    if (!state.lastUrl) return;
+    const a = document.createElement('a');
+    a.href = state.lastUrl; a.download = state.lastName;
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  $('shareBtn').addEventListener('click', async () => {
+    try {
+      const file = new File([state.lastBlob], state.lastName, { type: 'image/jpeg' });
+      await navigator.share({ files: [file], title: 'Photo Booth' });
+    } catch (e) { if (e.name !== 'AbortError') statusEl.textContent = 'Sharing failed.'; }
+  });
+
+  $('againBtn').addEventListener('click', () => {
+    $('result').classList.remove('show');
+    thumbs.innerHTML = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  shootBtn.addEventListener('click', runSession);
+  cancelBtn.addEventListener('click', () => { state.cancelled = true; });
+
+  document.addEventListener('keydown', e => {
+    if (e.code !== 'Space' || e.repeat) return;
+    const tag = document.activeElement?.tagName;
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || tag === 'BUTTON') return;
+    e.preventDefault();
+    if (!shootBtn.disabled) runSession();
+  });
+
+  window.addEventListener('pagehide', stopCamera);
+  updateShootLabel();
+})();
+</script>
+</body>
+</html>
