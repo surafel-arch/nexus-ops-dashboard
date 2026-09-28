@@ -210,6 +210,39 @@
     };
   }
 
+  // One readable email per request. Field names become the row labels in the email.
+  const EQUIP_LABELS = { '360-booth': '360 Video Booth', 'digital-booth': 'Digital Photo Booth', 'fog-machine': 'Fog Machine', 'air-cooler': 'Air Cooler' };
+  const PACKAGE_LABELS = { '360-experience': '360 Experience', 'digital-experience': 'Digital Booth Experience', 'wedding-experience': 'Wedding Experience', 'build-your-own': 'Build Your Own Event' };
+  function fmtTime(t) {
+    const [h, m] = t.split(':').map(Number);
+    return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
+  }
+  function toEmailFields(p) {
+    const ev = p.event;
+    const equipment = p.equipment.map(v => v === 'air-cooler' ? `Air Cooler x${p.airCoolerCount}` : EQUIP_LABELS[v] || v);
+    return {
+      _subject: `Quote request ${p.reference}: ${ev.type}, ${ev.date}`,
+      _template: 'table',
+      _captcha: 'false',
+      _replyto: p.customer.email,
+      'Reference': p.reference,
+      'Status': p.status,
+      'Name': p.customer.name,
+      'Email': p.customer.email,
+      'Phone': p.customer.phone,
+      'Event date': ev.date,
+      'Event time': `${fmtTime(ev.startTime)} to ${fmtTime(ev.endTime)}${ev.endsNextDay ? ' (next day)' : ''}`,
+      'Event type': ev.type,
+      'Venue': ev.venueName,
+      'Address or ZIP': ev.location,
+      'Guest count': String(ev.guestCount),
+      'Package interest': PACKAGE_LABELS[p.packageInterest] || 'Not sure yet',
+      'Equipment': equipment.join(', ') || 'None selected',
+      'Additional information': p.notes || '(none)',
+      'Submitted': new Date(p.submittedAt).toLocaleString()
+    };
+  }
+
   const statusEl = $('#formStatus'), submitBtn = $('#submitBtn');
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -222,12 +255,16 @@
     submitBtn.textContent = 'Sending...';
     try {
       if (CFG.formEndpoint) {
+        if (location.protocol === 'file:') throw new Error('FILE_PROTOCOL');
+        const isFormSubmit = /formsubmit\.co/.test(CFG.formEndpoint);
         const res = await fetch(CFG.formEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(isFormSubmit ? toEmailFields(payload) : payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json().catch(() => ({}));
+        if (String(data.success) === 'false') throw new Error(data.message || 'Form service rejected the request');
       } else if (CFG.demoMode) {
         console.warn('[BoothStop] DEMO MODE: this request was NOT sent anywhere. Set formEndpoint in config.js.', payload);
       } else {
@@ -237,7 +274,9 @@
     } catch (err) {
       console.error('[BoothStop] booking request failed', err);
       const contact = [CFG.phone && `call ${CFG.phone}`, CFG.email && `email ${CFG.email}`].filter(Boolean).join(' or ');
-      statusEl.textContent = `We couldn't send your request. Please try again${contact ? `, or ${contact}` : ''}.`;
+      statusEl.textContent = err.message === 'FILE_PROTOCOL'
+        ? 'Requests only send from the live website, not from a file opened on your computer.'
+        : `We couldn't send your request. Please try again${contact ? `, or ${contact}` : ''}.`;
       statusEl.hidden = false;
     } finally {
       submitBtn.disabled = false;

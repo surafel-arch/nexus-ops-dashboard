@@ -29,11 +29,13 @@ Gallery photos go in `images/gallery/` and get listed in `config.js`.
 
 ## Before launch
 
-1. Set `formEndpoint` in `config.js` and set `demoMode: false`. While demo mode is on, the form shows the thank-you message and sends nothing.
-2. Submit a test request and confirm it arrives.
-3. Add phone, email, and Instagram in `config.js`.
-4. Replace manufacturer photos with photos of your own equipment.
-5. Unhide `#testimonials` and `#service-area` in `index.html` only when you have real content.
+1. Put the site online (for example, drag the folder onto app.netlify.com/drop). The form does not send from a file opened on your computer.
+2. Send one test request from the live site. FormSubmit emails an activation link to boothstop@gmail.com. Click it. Requests are not delivered until you do.
+3. Send a second test request and confirm it arrives.
+4. Optional: FormSubmit's activation email includes a random alias address. Replace `boothstop@gmail.com` in `formEndpoint` with that alias to keep your address out of the page source.
+5. Add phone, email, and Instagram in `config.js`.
+6. Replace manufacturer photos with photos of your own equipment.
+7. Unhide `#testimonials` and `#service-area` in `index.html` only when you have real content.
 
 ## Booking pipeline
 
