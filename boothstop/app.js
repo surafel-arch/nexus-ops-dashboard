@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const CFG = window.YOUBOOTH_CONFIG || {};
+  const CFG = window.BOOTHSTOP_CONFIG || {};
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -179,7 +179,7 @@
   function makeRef() {
     const d = new Date(), p = n => String(n).padStart(2, '0');
     const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
-    return `YB-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${rand}`;
+    return `BS-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${rand}`;
   }
 
   // Every request carries a status so it can move through the booking pipeline:
@@ -229,13 +229,13 @@
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
       } else if (CFG.demoMode) {
-        console.warn('[YouBooth] DEMO MODE: this request was NOT sent anywhere. Set formEndpoint in config.js.', payload);
+        console.warn('[BoothStop] DEMO MODE: this request was NOT sent anywhere. Set formEndpoint in config.js.', payload);
       } else {
         throw new Error('No formEndpoint configured');
       }
       showThanks(payload.reference);
     } catch (err) {
-      console.error('[YouBooth] booking request failed', err);
+      console.error('[BoothStop] booking request failed', err);
       const contact = [CFG.phone && `call ${CFG.phone}`, CFG.email && `email ${CFG.email}`].filter(Boolean).join(' or ');
       statusEl.textContent = `We couldn't send your request. Please try again${contact ? `, or ${contact}` : ''}.`;
       statusEl.hidden = false;

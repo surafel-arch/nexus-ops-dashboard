@@ -1,4 +1,4 @@
-# YouBooth website
+# BoothStop website
 
 Static site. No build step. Open `index.html` or host the folder on any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
 
@@ -37,7 +37,7 @@ Gallery photos go in `images/gallery/` and get listed in `config.js`.
 
 ## Booking pipeline
 
-Every form submission includes `reference` (for example `YB-20270612-K3F9`) and `status: "inquiry"`. Track each request through these statuses in whatever tool receives it:
+Every form submission includes `reference` (for example `BS-20270612-K3F9`) and `status: "inquiry"`. Track each request through these statuses in whatever tool receives it:
 
 ```
 inquiry

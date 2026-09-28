@@ -1,11 +1,11 @@
 /*
-  YouBooth site settings. Edit this file, not app.js, for day-to-day changes.
+  BoothStop site settings. Edit this file, not app.js, for day-to-day changes.
 
   BEFORE LAUNCH: set formEndpoint and set demoMode to false.
   While demoMode is true, the booking form shows the thank-you message
   but sends the request NOWHERE. You would lose every lead.
 */
-window.YOUBOOTH_CONFIG = {
+window.BOOTHSTOP_CONFIG = {
   // Where booking requests go. Any service that accepts a JSON POST works
   // (Formspree, Basin, Netlify Functions, a Google Apps Script, your own API).
   formEndpoint: '',
